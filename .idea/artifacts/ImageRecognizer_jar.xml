@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ImageRecognizer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ImageRecognizer_jar</output-path>
+    <root id="archive" name="ImageRecognizer.jar">
+      <element id="module-output" name="ImageRecognizer" />
+      <element id="extracted-dir" path="C:/OpenCV_3.3.0/build/java/opencv-330.jar" path-in-jar="/" />
+      <element id="library" level="project" name="firebase-client-jvm-2.4.0" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../SQLiteLibs/sqlite-jdbc-3.21.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
