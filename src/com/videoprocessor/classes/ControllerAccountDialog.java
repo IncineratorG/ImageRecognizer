@@ -1,7 +1,7 @@
 package com.videoprocessor.classes;
 
-import com.videoprocessor.interfaces.Event;
-import com.videoprocessor.interfaces.EventListener;
+import com.videoprocessor.events.FirebaseRequestEvent;
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Alexander on 08.04.2018.
  */
-public class ControllerAccountDialog implements Initializable, EventListener {
+public class ControllerAccountDialog implements Initializable {
     public AnchorPane mainPane;
     public TextField userNameTextField;
     public TextField passwordTextField;
@@ -30,26 +30,21 @@ public class ControllerAccountDialog implements Initializable, EventListener {
     public void onOkButtonClicked() {
         Account account = new Account(userNameTextField.getText(), passwordTextField.getText());
 
-        FirebaseManager.getInstance().checkAccount(account).addEventListener(((eventObject, eventData) -> {
-            if (eventData == null) {
-                System.out.println("EVENT_DATA_IS_NULL");
+        FirebaseManager.getInstance().checkAccount(account).addEventListener(eventObject -> {
+            FirebaseRequestEvent event = (FirebaseRequestEvent) eventObject;
+            if (event == null)
                 return;
-            }
 
-            FirebaseRequestEventData data = (FirebaseRequestEventData) eventData;
-            if (data.getStatus() == FirebaseRequestEventStatus.HAS_DATA)
-                System.out.println("HAS_DATA");
-            else
-                System.out.println("NO_DATA");
-        }));
+            if (event.getEventData().getStatus() == FirebaseRequestEventStatus.ACCOUNT_EXIST) {
+                AccountManager.getInstance().setCurrentAccount(account);
+                Platform.runLater(() -> closeDialog());
+            }
+        });
     }
 
     public void onCancelButtonClicked() {
-        Stage stage = (Stage) mainPane.getScene().getWindow();
-        stage.close();
+        closeDialog();
     }
-
-
 
     public void onKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER))
@@ -59,8 +54,8 @@ public class ControllerAccountDialog implements Initializable, EventListener {
     }
 
 
-    @Override
-    public void eventFired(Event eventObject, Object eventData) {
-
+    private void closeDialog() {
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.close();
     }
 }

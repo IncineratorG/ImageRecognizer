@@ -1,5 +1,8 @@
 package com.videoprocessor.classes;
 
+import com.videoprocessor.interfaces.Event;
+import com.videoprocessor.interfaces.EventListener;
+
 /**
  * Created by Alexander on 13.04.2018.
  */
@@ -13,7 +16,10 @@ public class Account {
         this.password = password;
     }
 
-    public Account() {}
+    public Account() {
+        name = "";
+        password = "";
+    }
 
 
     public String getName() {

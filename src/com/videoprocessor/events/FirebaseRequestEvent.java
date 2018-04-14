@@ -1,5 +1,7 @@
-package com.videoprocessor.classes;
+package com.videoprocessor.events;
 
+import com.videoprocessor.classes.FirebaseRequestEventData;
+import com.videoprocessor.event_listeners.FirebaseRequestEventListener;
 import com.videoprocessor.interfaces.Event;
 import com.videoprocessor.interfaces.EventListener;
 
@@ -47,11 +49,6 @@ public class FirebaseRequestEvent implements Event {
     @Override
     public void fireEvent() {
         for (int i = 0; i < listeners.size(); ++i)
-            listeners.get(i).eventFired(this, eventData);
-    }
-
-    @Override
-    public void fireEventWithAdditionalData(Object data) {
-
+            listeners.get(i).eventFired(this);
     }
 }
